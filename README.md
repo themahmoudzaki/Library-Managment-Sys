@@ -195,5 +195,5 @@ Thanks!
 
 ---
 
-This guide outlines the design and operational details of the Library Management System, ensuring clarity and compliance with project standards.
+This guide outlines the design and operational details of the Library Management System, and compliance with project guidlines.
 
