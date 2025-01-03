@@ -58,17 +58,13 @@
 */
 int get_books_data(int books_data[MAX_BOOKS][2], int *books_count)
 {
-    // EOF checker/flag
-    int eof_flag = 0;
     int counter = 0;
     int total_books = 0; // We will return this as it will contain the total number of books
 
-    printf("Enter Book's ID & the Number of Copies: \n");
-    while (counter < MAX_BOOKS)
+    // printf("Enter Book's ID & the Number of Copies: \n");
+    while (counter < MAX_BOOKS || !feof(stdin))
     {
-        eof_flag = scanf("%d %d", &books_data[counter][0], &books_data[counter][1]);
-        if (eof_flag == -1) break;
-        
+        if ( scanf("%d %d", &books_data[counter][0], &books_data[counter][1]) == EOF ) break;
         total_books += books_data[counter][1]; // Total number of books
         counter++; // Count of books
     }
@@ -83,15 +79,12 @@ int get_books_data(int books_data[MAX_BOOKS][2], int *books_count)
 
 int get_members_data(int member_id[MAX_MEMBERS])
 {
-    // EOF checker/flag
-    int eof_flag = 0;
     int counter = 0; // We will return this as it will contain the total number of members
 
-    printf("Enter member's ID: \n");
+    // printf("Enter member's ID: \n");
     while (counter < MAX_MEMBERS)
     {
-        eof_flag = scanf("%d", &member_id[counter]);
-        if (eof_flag == -1) break;
+        if ( scanf("%d", &member_id[counter]) == EOF ) break;
         counter++; // count of members
     }
 
@@ -100,15 +93,12 @@ int get_members_data(int member_id[MAX_MEMBERS])
 
 int get_borrowed_data(int borrowed_books_data[MAX_BORROWED_BOOKS][2], char borrowed_books_date[MAX_BORROWED_BOOKS][DATE_LENGTH])
 {
-    // EOF checker/flag
-    int eof_flag = 0;
     int counter = 0;
     
-    printf("Enter borrowed Book's ID & borrower's ID & borrow date (DD/MM/YYYY): \n");
+    // printf("Enter borrowed Book's ID & borrower's ID & borrow date (DD/MM/YYYY): \n");
     while (counter < MAX_BORROWED_BOOKS)
     {
-        eof_flag = scanf("%d %d %s", &borrowed_books_data[counter][0], &borrowed_books_data[counter][1], borrowed_books_date[counter]);
-        if (eof_flag == -1) break;
+        if ( scanf("%d %d %s", &borrowed_books_data[counter][0], &borrowed_books_data[counter][1], borrowed_books_date[counter]) == EOF ) break;
         counter++; // Borrow counter
     };
 
@@ -144,8 +134,8 @@ void book_id_min(int books_data[MAX_BOOKS][2], int data_count_0)
     {
         if ( min_book_id > books_data[i][0] ) { min_book_id = books_data[i][0]; }
     };
-    printf("Min Book ID: %d\n", min_book_id);
-    // printf("%d\n", min_book_id);
+    // printf("Min Book ID: %d\n", min_book_id);
+    printf("%d\n", min_book_id);
 };
 
 void books_available(int books_data[MAX_BOOKS][2], int borrowed_books_data[MAX_BORROWED_BOOKS][2], int data_count_0, int data_count_3)
@@ -153,7 +143,7 @@ void books_available(int books_data[MAX_BOOKS][2], int borrowed_books_data[MAX_B
     int books_available; // Will store the number of copies of a certain book 
     int availability_bool = 1; // Will store 0 if the are available books and 1 if there is no available books 
 
-    printf("Available books: \n");
+    // printf("Available books: \n");
     for ( int i = 0; i < data_count_0; i++ )
     {
         books_available = books_data[i][1]; // stores the intial number of copies
@@ -176,7 +166,7 @@ void list_book_borrowers(int command_argument, int borrowed_books_data[MAX_BORRO
     int book_borrowers[data_count_3];
     int counter = 0;
 
-    printf("Book ID: %d Borrowers: \n", command_argument);
+    // printf("Book ID: %d Borrowers: \n", command_argument);
 
     for ( int i = 0; i < data_count_3; i++ )
     {
@@ -204,7 +194,7 @@ void list_member_books(int command_argument, int borrowed_books_data[MAX_BORROWE
 {
     int borrowed_counter = 0;
 
-    printf("Member ID: %d Books Borrowed: \n", command_argument);
+    // printf("Member ID: %d Books Borrowed: \n", command_argument);
     for ( int i = 0; i < data_count_3; i++ )
     {
         if ( borrowed_books_data[i][1] == command_argument )
@@ -236,8 +226,8 @@ void most_borrowed(int books_data[MAX_BOOKS][2], int borrowed_books_data[MAX_BOR
 
         if ( i != 0 && counter[i] > counter[i - 1] ){ most_borrowed_index = i; };
     }
-    printf("Most borrowed Book ID: %d Borrow Amount: %d\n", books_data[most_borrowed_index][0], counter[most_borrowed_index]);
-    // printf("%d", books_data[most_borrowed_index][0]);
+    // printf("Most borrowed Book ID: %d Borrow Amount: %d\n", books_data[most_borrowed_index][0], counter[most_borrowed_index]);
+    printf("%d", books_data[most_borrowed_index][0]);
 
 };
 
@@ -245,7 +235,7 @@ void members_less(int command_argument, int members_id[MAX_MEMBERS], int borrowe
 {
     int borrow_counter = 0;
 
-    printf("Members who borrowed less than %d books: \n", command_argument);
+    // printf("Members who borrowed less than %d book(s): \n", command_argument);
     for ( int i = 0; i < data_count_2; i++ )
     {
         for ( int j = 0; j < data_count_3; j++ )
@@ -263,7 +253,7 @@ void books_unborrowed(int books_data[MAX_BOOKS][2], int borrowed_books_data[MAX_
     int borrowed_flag = 1; //  1 = unborrowed, 0 = borrowed
     int counter_of_borrow = 0;
 
-    printf("Unborrowed books ID: \n");
+    // printf("Unborrowed books ID: \n");
     for ( int i = 0; i < data_count_0; i++ )
     {
         for ( int j = 0; j < data_count_3; j++ )
@@ -279,7 +269,7 @@ void books_unborrowed(int books_data[MAX_BOOKS][2], int borrowed_books_data[MAX_
         borrowed_flag = 1;
     };
 
-    if ( counter_of_borrow == 0 ){ printf("None"); };
+    if ( counter_of_borrow != 0 ){ printf("None"); };
 };
 
 void books_borrowed_days(char borrowed_books_date[MAX_BORROWED_BOOKS][DATE_LENGTH], int data_count_3)
@@ -288,7 +278,7 @@ void books_borrowed_days(char borrowed_books_date[MAX_BORROWED_BOOKS][DATE_LENGT
     int uniqueness_check = 0; // 1 = not unique, 0 = unique
     int uniqueness_counter = 0;
     
-    printf("Number of unique days: \n");
+    // printf("Number of unique days: \n");
     for ( int i = 0; i < data_count_3; i++ )
     {
         unique_days[0] = borrowed_books_date[i][0];
@@ -321,12 +311,14 @@ void books_per_member(int members_id[MAX_MEMBERS], int borrowed_books_data[MAX_B
         for ( int j = 0; j < data_count_3; j++ ) { if ( members_id[i] == borrowed_books_data[j][1] ) { counter++; } };
         if ( counter == 0 )
         { 
-            printf("Member: %d Borrow Amound: None\n", members_id[i]);
-            // printf("%d None\n", members_id[i]); 
-        };
+            // printf("Member: %d Borrow Amound: None\n", members_id[i]);
+            printf("%d None\n", members_id[i]); 
+        } else
+        {
+            // printf("Member: %d Borrow Amount: %d\n", members_id[i], counter);
+            printf("%d %d\n", members_id[i], counter);
+        }
 
-        printf("Member: %d Borrow Amount: %d\n", members_id[i], counter);
-        // printf("%d %d\n", members_id[i], counter);
 
         counter = 0;
     }
@@ -335,7 +327,7 @@ void books_per_member(int members_id[MAX_MEMBERS], int borrowed_books_data[MAX_B
 void overlapping_borrowers(int command_argument, int borrowed_books_data[MAX_BORROWED_BOOKS][2], char borrowed_books_date[MAX_BORROWED_BOOKS][DATE_LENGTH], int data_count_3) {
     int counter = 0;  // Count overlapping borrowers
     
-    printf("Overlapping borrowers ID: \n");
+    // printf("Overlapping borrowers ID: \n");
     for ( int i = 0; i < data_count_3; i++ ) 
     {
         // Check if the book was borrowed by the given borrower ID
@@ -399,7 +391,7 @@ void overlapping_borrowers(int command_argument, int borrowed_books_data[MAX_BOR
 */
 int get_data_handler(int books_data[MAX_BOOKS][2], int members_id[MAX_MEMBERS], int borrowed_books_data[MAX_BORROWED_BOOKS][2], char borrowed_books_date[MAX_BORROWED_BOOKS][DATE_LENGTH], int data_count[4]) 
 {
-    printf("\n--------------------------------------- Enter some data to get started ---------------------------------------\n");
+    // printf("\n--------------------------------------- Enter some data to get started ---------------------------------------\n");
     
     int books_count; /* Modified in the get_books_data function to store the count of books */
     data_count[1] = get_books_data(books_data, &books_count); // return total count of books
@@ -414,17 +406,17 @@ int get_data_handler(int books_data[MAX_BOOKS][2], int members_id[MAX_MEMBERS], 
     */
     clearerr(stdin); 
     
-    printf("\n---------------------------------------\n");
+    // printf("\n---------------------------------------\n");
     
     data_count[2] = get_members_data(members_id); // returns total count of members
     clearerr(stdin); 
     
-    printf("\n---------------------------------------\n");
+    // printf("\n---------------------------------------\n");
     
     data_count[3] = get_borrowed_data(borrowed_books_data, borrowed_books_date); // returns total count of borrowed books
     clearerr(stdin); 
     
-    printf("\n------------------------------------------- End of data collection -------------------------------------------\n");
+    // printf("\n------------------------------------------- End of data collection -------------------------------------------\n");
 
     return 0;
 };
@@ -459,26 +451,26 @@ int get_data_handler(int books_data[MAX_BOOKS][2], int members_id[MAX_MEMBERS], 
 int commands_handler(int books_data[MAX_BOOKS][2], int members_id[MAX_MEMBERS], int borrowed_books_data[MAX_BORROWED_BOOKS][2], char borrowed_books_date[MAX_BORROWED_BOOKS][DATE_LENGTH], int data_count[4])
 {
     char command[40];
-    printf(
-            "\n\nLibrary system commands\n"
-            "[...]\n"
-            "Available commands are\n\n"
-            "- Number_Books\n"
-            "- Number_Members\n"
-            "- Book_ID_Min\n"
-            "- Books_Available\n"
-            "- List_Book_Borrowers ID\n"
-            "- List_Member_Books ID\n"
-            "- Most_Borrowed\n"
-            "- Members_Less n\n"
-            "- Books_Unborrowed\n"
-            "- Books_Borrowed_Days\n"
-            "- Books_Per_Member\n"
-            "- Overlapping_Borrowers ID\n"
-            "- Quit\n"
-    );
+    // printf(
+    //         "\n\nLibrary system commands\n"
+    //         "[...]\n"
+    //         "Available commands are\n\n"
+    //         "- Number_Books\n"
+    //         "- Number_Members\n"
+    //         "- Book_ID_Min\n"
+    //         "- Books_Available\n"
+    //         "- List_Book_Borrowers ID\n"
+    //         "- List_Member_Books ID\n"
+    //         "- Most_Borrowed\n"
+    //         "- Members_Less n\n"
+    //         "- Books_Unborrowed\n"
+    //         "- Books_Borrowed_Days\n"
+    //         "- Books_Per_Member\n"
+    //         "- Overlapping_Borrowers ID\n"
+    //         "- Quit\n"
+    // );
     
-    printf("Enter a command from the aforementioned list: ");
+    // printf("Enter a command from the aforementioned list: ");
     /*
         - Why fgets? and not scanf?
         We use fgets because it continues to read the string even if it's separated by a whitespace.
@@ -528,7 +520,6 @@ int commands_handler(int books_data[MAX_BOOKS][2], int members_id[MAX_MEMBERS], 
     };
     if ( white_space_index != -1 )
     {
-        // Bug Here Fix
         command[white_space_index] = '\0';
         for ( int i = 0; command[white_space_index + i + 1] != '\0'; i++ )
         { 
@@ -545,7 +536,7 @@ int commands_handler(int books_data[MAX_BOOKS][2], int members_id[MAX_MEMBERS], 
         /*Done*/else if (strcmp(command, "list_member_books") == 0) { list_member_books(command_argument_int, borrowed_books_data, data_count[3]); }
         /*Done*/else if (strcmp(command, "members_less") == 0) { members_less(command_argument_int, members_id, borrowed_books_data, data_count[2], data_count[3]); }
         /*Done*/else if (strcmp(command, "overlapping_borrowers") == 0) { overlapping_borrowers(command_argument_int, borrowed_books_data, borrowed_books_date, data_count[3]); }
-        /*Done*/else { printf("Invalid Command Try again..."); };
+        // /*Done*/else { printf("Invalid Command Try again..."); };
 
         // Recursion
         // Loop until user input the exit command
@@ -563,7 +554,7 @@ int commands_handler(int books_data[MAX_BOOKS][2], int members_id[MAX_MEMBERS], 
     /*Done*/else if (strcmp(command, "books_borrowed_days") == 0) { books_borrowed_days(borrowed_books_date, data_count[3]); }
     /*Done*/else if (strcmp(command, "books_per_member") == 0) { books_per_member(members_id, borrowed_books_data, data_count[2], data_count[3]); }
     /*Done*/else if (strcmp(command, "quit") == 0) { return 0; } // exit command
-    /*Done*/else { printf("Invalid Command Try again....."); };
+    // /*Done*/else { printf("Invalid Command Try again....."); };
 
     // Recursion
     // Loop until user input the exit command
