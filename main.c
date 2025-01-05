@@ -272,35 +272,34 @@ void books_unborrowed(int books_data[MAX_BOOKS][2], int borrowed_books_data[MAX_
     if ( counter_of_borrow == 0 ){ printf("None\n"); };
 };
 
-void books_borrowed_days(char borrowed_books_date[MAX_BORROWED_BOOKS][DATE_LENGTH], int data_count_3)
-{
-    int unique_days[2];
-    int uniqueness_check = 0; // 1 = not unique, 0 = unique
-    int uniqueness_counter = 0;
+void books_borrowed_days(char borrowed_books_date[MAX_BORROWED_BOOKS][DATE_LENGTH], int data_count_3) {
+    char unique_dates[MAX_BORROWED_BOOKS][DATE_LENGTH]; // Array to track unique dates
+    int unique_counter = 0;
+    int is_unique;
 
-    // printf("Number of unique days: \n");
-    for ( int i = 0; i < data_count_3; i++ )
-    {
-        unique_days[0] = borrowed_books_date[i][0];
-        unique_days[1] = borrowed_books_date[i][1];
-        for ( int j = 0; j < data_count_3; j++ )
-        {
-            if ( j != i )
-            {
-                if
-                (
-                    unique_days[0] == borrowed_books_date[j][0] &&
-                    unique_days[1] == borrowed_books_date[j][1]
-                )
-                { uniqueness_check = 1; };
+    for (int i = 0; i < data_count_3; i++) {
+        is_unique = 1;
+
+        // Check if the current date is was already checked ( in unique dates )
+        for (int j = 0; j < unique_counter; j++) {
+            if (strcmp(borrowed_books_date[i], unique_dates[j]) == 0) {
+                is_unique = 0; // Date is not unique
+                break;
             }
-        };
-        if ( uniqueness_check == 0 ) { uniqueness_counter++; }
-        uniqueness_check == 0;
-    }
-    printf("%d\n", uniqueness_counter);
+        }
 
+        // If the date is unique, add it to the unique_dates array
+        if (is_unique) {
+            strcpy(unique_dates[unique_counter], borrowed_books_date[i]);
+            unique_counter++;
+        }
+    }
+
+    // Print the count of unique dates
+    if ( unique_counter == 0 ) { printf("None\n"); }
+    else { printf("%d\n", unique_counter); };
 };
+
 
 void books_per_member(int members_id[MAX_MEMBERS], int borrowed_books_data[MAX_BORROWED_BOOKS][2], int data_count_2, int data_count_3)
 {
@@ -325,6 +324,11 @@ void books_per_member(int members_id[MAX_MEMBERS], int borrowed_books_data[MAX_B
 };
 
 void overlapping_borrowers(int command_argument, int borrowed_books_data[MAX_BORROWED_BOOKS][2], char borrowed_books_date[MAX_BORROWED_BOOKS][DATE_LENGTH], int data_count_3) {
+    int printed_borrowers[data_count_3];
+    // Fill the printed_borrowers array with 0 ( to remove the garbage values )
+    for ( int i = 0; i < data_count_3; i++ )
+    { printed_borrowers[i] = 0; }
+
     int counter = 0;  // Count overlapping borrowers
     // printf("Overlapping borrowers ID: \n");
     for ( int i = 0; i < data_count_3; i++ )
@@ -342,11 +346,13 @@ void overlapping_borrowers(int command_argument, int borrowed_books_data[MAX_BOR
                         // Compare dates
                         if (
                                 borrowed_books_date[i][0] == borrowed_books_date[j][0] &&
-                                borrowed_books_date[i][1] == borrowed_books_date[j][1]
+                                borrowed_books_date[i][1] == borrowed_books_date[j][1] &&
+                                printed_borrowers[j] != borrowed_books_data[j][0]
                             )
                         {
                             // Print overlapping borrower ID
                             printf("%d\n", borrowed_books_data[j][1]);
+                            printed_borrowers[j] = borrowed_books_data[j][0];
                             counter++;
                         }
                     }
@@ -552,7 +558,7 @@ int commands_handler(int books_data[MAX_BOOKS][2], int members_id[MAX_MEMBERS], 
     /*Done*/else if (strcmp(command, "books_unborrowed") == 0) { books_unborrowed(books_data, borrowed_books_data, data_count[0], data_count[3]); }
     /*Done*/else if (strcmp(command, "books_borrowed_days") == 0) { books_borrowed_days(borrowed_books_date, data_count[3]); }
     /*Done*/else if (strcmp(command, "books_per_member") == 0) { books_per_member(members_id, borrowed_books_data, data_count[2], data_count[3]); }
-    /*Done*/else if (strcmp(command, "quit") == 0) { return 0; } // exit command
+    /*Done*/if (strcmp(command, "quit") == 0) { return 0; } // exit command
     // /*Done*/else { printf("Invalid Command Try again....."); };
 
     // Recursion
