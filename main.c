@@ -113,16 +113,16 @@ int get_borrowed_data(int borrowed_books_data[MAX_BORROWED_BOOKS][2], char borro
 void number_books(int data_count_1)
 {
     if (data_count_1 == 0){ printf("None\n"); }
-
     else { printf("%d\n", data_count_1); }
+
     return;
 };
 
 void number_members(int data_count_2)
 {
     if ( data_count_2 == 0 ){ printf("None\n"); }
-
     else { printf("%d\n", data_count_2); }
+
     return;
 };
 
@@ -272,13 +272,14 @@ void books_unborrowed(int books_data[MAX_BOOKS][2], int borrowed_books_data[MAX_
     if ( counter_of_borrow == 0 ){ printf("None\n"); };
 };
 
-void books_borrowed_days(char borrowed_books_date[MAX_BORROWED_BOOKS][DATE_LENGTH], int data_count_3) {
+void books_borrowed_days(char borrowed_books_date[MAX_BORROWED_BOOKS][DATE_LENGTH], int data_count_3) 
+{
     char unique_dates[MAX_BORROWED_BOOKS][DATE_LENGTH]; // Array to track unique dates
     int unique_counter = 0;
     int is_unique;
 
     for (int i = 0; i < data_count_3; i++) {
-        is_unique = 1;
+        is_unique = 1; // Assume unique until otherwise
 
         // Check if the current date is was already checked ( in unique dates )
         for (int j = 0; j < unique_counter; j++) {
@@ -323,7 +324,8 @@ void books_per_member(int members_id[MAX_MEMBERS], int borrowed_books_data[MAX_B
     }
 };
 
-void overlapping_borrowers(int command_argument, int borrowed_books_data[MAX_BORROWED_BOOKS][2], char borrowed_books_date[MAX_BORROWED_BOOKS][DATE_LENGTH], int data_count_3) {
+void overlapping_borrowers(int command_argument, int borrowed_books_data[MAX_BORROWED_BOOKS][2], char borrowed_books_date[MAX_BORROWED_BOOKS][DATE_LENGTH], int data_count_3) 
+{
     int printed_borrowers[data_count_3];
     // Fill the printed_borrowers array with 0 ( to remove the garbage values )
     for ( int i = 0; i < data_count_3; i++ )
